@@ -1,0 +1,1 @@
+INSERT INTO Url (name, created_at) VALUES ('google.com', '2022-02-21 12:00:40');

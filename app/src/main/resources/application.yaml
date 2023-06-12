@@ -1,0 +1,13 @@
+datasource:
+  db:
+    username: cottonpads
+    password: 1234
+    url: jdbc:h2:./hexlet
+
+ebean:
+  ddl:
+    run: true
+    generate: true
+    seedSql: seed.sql
+    migration:
+      run: true
