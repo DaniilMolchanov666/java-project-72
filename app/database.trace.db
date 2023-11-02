@@ -1,0 +1,52 @@
+2023-10-31 19:03:11.300749+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE urls (id BIGINT PRIMARY KEY [*]AUTO_INCREMENTED, name VARCHAR(255), created_at TIMESTAMP)"; ожидалось "HASH, CONSTRAINT, COMMENT, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "CREATE TABLE urls (id BIGINT PRIMARY KEY [*]AUTO_INCREMENTED, name VARCHAR(255), created_at TIMESTAMP)"; expected "HASH, CONSTRAINT, COMMENT, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE urls (id BIGINT PRIMARY KEY AUTO_INCREMENTED, name VARCHAR(255), created_at TIMESTAMP) [42001-224]
+2023-10-31 19:05:31.566303+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "URLS" уже существует
+Table "URLS" already exists; SQL statement:
+CREATE TABLE urls (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), created_at TIMESTAMP) [42101-224]
+2023-10-31 19:09:50.956920+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "URLS" уже существует
+Table "URLS" already exists; SQL statement:
+CREATE TABLE urls (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), created_at TIMESTAMP) [42101-224]
+2023-10-31 19:12:59.353295+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "URLS" уже существует
+Table "URLS" already exists; SQL statement:
+CREATE TABLE urls (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), created_at TIMESTAMP) [42101-224]
+2023-10-31 19:14:06.287870+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ABC" уже существует
+Table "ABC" already exists; SQL statement:
+CREATE TABLE abc (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), created_at TIMESTAMP) [42101-224]
+2023-10-31 19:16:15.258064+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CBN" уже существует
+Table "CBN" already exists; SQL statement:
+CREATE TABLE cbn (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), created_at TIMESTAMP) [42101-224]
+2023-10-31 19:16:49.368358+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "0" для параметра "columnIndex"
+Invalid value "0" for parameter "columnIndex" [90008-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcResultSet.checkColumnIndex(JdbcResultSet.java:3524)
+	at org.h2.jdbc.JdbcResultSet.getArray(JdbcResultSet.java:1326)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getArray(HikariProxyResultSet.java)
+	at hexlet.code.App.getApp(App.java:36)
+	at hexlet.code.App.main(App.java:17)
+2023-10-31 19:16:58.718789+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2023-10-31 19:19:21.012419+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Ошибка преобразования данных при конвертации "1957 (URLS: ""CREATED_AT"" TIMESTAMP)"
+Data conversion error converting "1957 (URLS: ""CREATED_AT"" TIMESTAMP)"; SQL statement:
+INSERT INTO urls (id, name, created_at) VALUES (1, 'google.com', 1970-12-01) [22018-224]
+2023-10-31 19:19:32.859301+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2023-10-31 19:20:39.516358+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2023-10-31 19:36:19.145468+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Объект уже закрыт
+The object is already closed [90007-224]
