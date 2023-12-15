@@ -22,6 +22,9 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("gg.jte:jte:3.1.4")
     compileOnly("org.projectlombok:lombok:1.18.30")
+    implementation("com.konghq:unirest-java:4.0.0-RC2")
+    implementation ("org.jsoup:jsoup:1.16.2")
+
 
     implementation("org.eclipse.dirigible:dirigible-database-h2:8.17.1")
 

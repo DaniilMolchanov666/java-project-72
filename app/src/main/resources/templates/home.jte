@@ -1,3 +1,6 @@
+@import gg.jte.Content
+@param Content content
+
 <html lang="ru">
 <head>
     <div class="p-3 mb-2 bg-dark text-white">
@@ -10,8 +13,21 @@
     <title>Анализатор страниц</title>
     <h1> Анализатор страниц </h1>
     <h6>Бесплатно проверяйте сайты на SEO пригодность</h6>
-    <p><input type="search" name="q" placeholder="Ссылка">
-        <button type="button" class="btn btn-primary">Проверить</button></p>
+        <form action="/urls" method="post">
+            <div>
+                <label>
+                    <p1>
+                    <input type="text" name="url" placeholder="Ссылка" size="50"/>
+                    <button type="submit" class="btn btn-primary">Проверить</button>
+                    </p1>
+                </label>
+            </div>
+        </form>
     </div>
 </head>
+<body>
+
+${content}
+
+</body>
 </html>
