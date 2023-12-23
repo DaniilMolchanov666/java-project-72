@@ -1,6 +1,6 @@
-@import hexlet.code.model.Url
 @import hexlet.code.model.UrlCheck
-@param Url url
+@import hexlet.code.dto.UrlChecks
+@param UrlChecks urlChecks
 
 <html lang="ru">
 <head>
@@ -12,31 +12,39 @@
               integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
               crossorigin="anonymous">
     </div>
-    @if(url.getFlash() == null))
-        <div class="alert alert-danger" role="alert">
-            ${url.getFlash()}
-        </div>
-    @endif
     <h1>
-        Сайт: ${url.getName()}
+        Сайт: ${urlChecks.url.getName()}
     </h1>
+    @if(urlChecks.flash.isPresent())
+        @if(urlChecks.flash.get().equals("Проверка прошла успешно!"))
+            <div class="alert alert-success" role="alert">
+                ${urlChecks.flash.get()}
+            </div>
+        @else
+            @if(urlChecks.flash.get().equals("Некорректный url!"))
+                <div class="alert alert-danger" role="alert">
+                    ${urlChecks.flash.get()}
+                </div>
+            @endif
+        @endif
+    @endif
 </head>
 <body>
 <table class="table">
     <thead>
     <tr>
         <th scope="row">Id:</th>
-        <td>${url.getId()}</td>
+        <td>${urlChecks.url.getId()}</td>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th scope="row">Имя: </th>
-        <td>${url.getName()}</td>
+        <td>${urlChecks.url.getName()}</td>
     </tr>
     <tr>
         <th scope="row">Дата создания: </th>
-        <td>${url.getCreatedAt().toString()}</td>
+        <td>${urlChecks.url.getCreatedAt().toString()}</td>
     </tr>
     </tbody>
 </table>
@@ -44,12 +52,10 @@
         Проверки
     </h1>
     <br>
-    <form action="/urls/${url.getId()}/checks" method="post">
+    <form action="/urls/${urlChecks.url.getId()}/checks" method="post">
         <div>
             <label>
-                <p1>
-                    <button type="submit" class="btn btn-primary">Запустить проверку</button>
-                </p1>
+                <button type="submit" class="btn btn-primary">Запустить проверку</button>
             </label>
         </div>
     </form>
@@ -65,8 +71,8 @@
     </tr>
     </thead>
     <tbody>
-    @if(url.getListOfChecks() != null)
-        @for(UrlCheck check: url.getListOfChecks())
+    @if(urlChecks.urlCheckList != null)
+        @for(UrlCheck check: urlChecks.urlCheckList)
         <tr>
             <th scope="row"> ${check.getId()} </th>
             <td> ${check.getStatusCode()} </td>

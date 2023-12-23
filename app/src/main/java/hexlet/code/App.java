@@ -3,6 +3,8 @@ package hexlet.code;
 import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.HomeController;
+import hexlet.code.controller.UrlChecksController;
+import hexlet.code.controller.UrlController;
 import hexlet.code.reporitory.UrlRepository;
 import hexlet.code.util.HomeRoutes;
 import io.javalin.Javalin;
@@ -16,6 +18,9 @@ import java.sql.SQLException;
 
 public class App {
 
+    // TODO сделать шаблоны ссылок на основные страницы
+    // TODO настроть с СSS расположение кнопок
+
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "8000");
         return Integer.parseInt(port);
@@ -23,7 +28,6 @@ public class App {
     public static void main(String[] args) throws SQLException, IOException {
         var app = getApp();
         app.start(getPort());
-
     }
 
     public static Javalin getApp() throws IOException, SQLException {
@@ -48,16 +52,16 @@ public class App {
         });
 
         app.get(HomeRoutes.homePage(), HomeController::homePage);
-        app.post(HomeRoutes.showAllUrls(), HomeController::savePage);
-        app.get(HomeRoutes.showAllUrls(), HomeController::showUrls);
-        app.get(HomeRoutes.currentUrl(), HomeController::showPage);
-        app.post(HomeRoutes.checkUrl(), HomeController::showChecks);
+        app.post(HomeRoutes.showAllUrls(), UrlController::savePage);
+        app.get(HomeRoutes.showAllUrls(), UrlController::showUrls);
+        app.get(HomeRoutes.currentUrl(), UrlChecksController::showPageWithChecks);
+        app.post(HomeRoutes.checkUrl(), UrlChecksController::checkUrl);
         return app;
     }
 
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
-        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("jte", classLoader);
         return TemplateEngine.create(codeResolver, ContentType.Html);
     }
 }

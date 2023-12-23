@@ -11,7 +11,6 @@ import java.util.List;
 public class UrlRepository extends BaseRepository{
 
     //TODO настройка ссылок на home страницу и urls страницу
-
     public static ArrayList<Url> listOfUrls = new ArrayList<>();
     public static void save(Url url) throws SQLException {
         if (!listOfUrls.contains(url)) {
@@ -24,7 +23,7 @@ public class UrlRepository extends BaseRepository{
                 statement.executeUpdate();
 
                 var generatedKeys = statement.getGeneratedKeys();
-                if(generatedKeys.next()) {
+                if (generatedKeys.next()) {
                     url.setId(generatedKeys.getLong(1));
                 } else {
                     throw new SQLException("DB have not returned an id after saving the entity");

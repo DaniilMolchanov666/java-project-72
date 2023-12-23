@@ -1,3 +1,4 @@
+@import hexlet.code.dto.Urls
 @import hexlet.code.model.*
 @import gg.jte.Content
 @param Urls urls
@@ -18,6 +19,19 @@
         <h1>
             Сайты
         </h1>
+            @if(urls.getFlash().isPresent())
+                @if(urls.getFlash().get().equals("Данная страница уже существует!"))
+                    <div class="alert alert-info" role="alert">
+                        ${urls.getFlash().get()}
+                    </div>
+                @else
+                    @if(urls.getFlash().get().equals("Страница успешно создана!"))
+                        <div class="alert alert-success" role="alert">
+                            ${urls.getFlash().get()}
+                        </div>
+                    @endif
+                @endif
+            @endif
         <table class="table">
             <thead>
             <tr>

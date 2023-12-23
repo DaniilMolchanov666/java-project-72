@@ -2,13 +2,10 @@ package hexlet.code.reporitory;
 
 import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
-import kong.unirest.GetRequest;
+import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
+import org.jsoup.nodes.Document;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -16,27 +13,19 @@ import java.util.*;
 
 public class UrlCheckRepository extends BaseRepository {
 
-    //TODO  настроить флеш-сообщения
-    //TODO  вывод сообщения о некорректном URL адресе
-    //TODO вывод h1 заголовка
-
-    public static HashMap<Url, List<UrlCheck>> mapOfChecks = new HashMap<>();
-
-    public static void saveCheck(Url url) throws IOException, SQLException {
+    public static void saveCheck(Url url) throws Exception {
 
         String sqlInsert = "INSERT INTO url_checks(url_id, status_code, title, h1, description, created_at) VALUES "
                 + "(?, ?, ?, ?, ?, ?)";
 
-        GetRequest con = Unirest.get(url.getName());
-        Connection con2 = Jsoup.connect(url.getName());
+        Jsoup.connect(url.getName()).get();
 
-        int status = Unirest.get(url.getName())
-                .asEmpty()
-                .getStatus();
+        HttpResponse<String> response = Unirest.get(url.getName()).asString();
+        Document bodyOfResponse = Jsoup.parse(response.getBody());
 
-        String title = Jsoup.connect(url.getName())
-                .get()
-                .title();
+        int status = response.getStatus();
+
+        String title = bodyOfResponse.title();
 
         String h = Jsoup.connect(url.getName())
                 .get()
@@ -44,10 +33,10 @@ public class UrlCheckRepository extends BaseRepository {
                 .text();
 
         String description = Optional.of(Jsoup.connect(url.getName())
-                .get()
-                .selectFirst("meta")
-                .attr("description"))
-                .orElse("No such elements");
+                        .get()
+                        .selectFirst("meta")
+                        .attr("description"))
+                        .orElse("No such elements");
 
         Timestamp timeNow = new Timestamp(new Date().getTime());
 
@@ -62,30 +51,10 @@ public class UrlCheckRepository extends BaseRepository {
 
             statement.executeUpdate();
 
-            UrlCheck urlChecks = new UrlCheck(url.getId());
-
-            var generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                urlChecks.setId(generatedKeys.getLong(1));
-            } else {
-                throw new SQLException("DB have not returned an id after saving the entity");
-            }
-
-            urlChecks.setStatusCode(status);
-            urlChecks.setTitle(title);
-            urlChecks.setH1(h);
-            urlChecks.setDescription(description);
-            urlChecks.setCreatedAt(timeNow);
-
-            mapOfChecks.computeIfPresent(url, (key, value) -> {
-                List<UrlCheck> list = new ArrayList<>(mapOfChecks.get(key));
-                list.add(urlChecks);
-                return list;
-            });
         }
     }
 
-    public static List<UrlCheck> getChecks(Url url) {
+    public static List<UrlCheck> getChecksForUrl(Url url) {
 
         String sql = "SELECT * FROM url_checks";
 

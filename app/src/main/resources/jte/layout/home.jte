@@ -1,4 +1,6 @@
 @import gg.jte.Content
+@import io.javalin.http.Context;
+@param Context c
 @param Content content
 
 <html lang="ru">
@@ -11,6 +13,22 @@
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
           crossorigin="anonymous">
     <title>Анализатор страниц</title>
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Анализатор страниц</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Главная</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/urls">Сайты</a>
+            </li>
+        </ul>
+        @if(c.sessionAttribute("incorrect url") != null)
+            <div class="alert alert-danger" role="alert">
+                ${c.sessionAttribute("incorrect url").toString()}
+            </div>
+        @endif
     <h1> Анализатор страниц </h1>
     <h6>Бесплатно проверяйте сайты на SEO пригодность</h6>
         <form action="/urls" method="post">
@@ -24,10 +42,10 @@
             </div>
         </form>
     </div>
+    <body>
+    <p1>
+        ${content}
+    </p1>
+    </body>
 </head>
-<body>
-
-${content}
-
-</body>
 </html>
