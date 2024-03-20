@@ -12,6 +12,6 @@ public final class Urls {
 
     private final List<Url> urls;
 
-    private final Optional <String> flash;
+    private final Optional<String> flash;
 
 }

@@ -5,9 +5,15 @@ public class HomeRoutes {
         return "/";
     }
 
-    public static String showAllUrls() { return "/urls"; }
+    public static String showAllUrls() {
+        return "/urls";
+    }
 
-    public static String currentUrl() { return "/urls/{id}"; }
+    public static String currentUrl() {
+        return "/urls/{id}";
+    }
 
-    public static String checkUrl() { return "/urls/{id}/checks"; }
+    public static String checkUrl() {
+        return "/urls/{id}/checks";
+    }
 }

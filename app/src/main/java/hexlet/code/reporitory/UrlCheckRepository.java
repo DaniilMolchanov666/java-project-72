@@ -6,6 +6,8 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -18,6 +20,23 @@ public class UrlCheckRepository extends BaseRepository {
         String sqlInsert = "INSERT INTO url_checks(url_id, status_code, title, h1, description, created_at) VALUES "
                 + "(?, ?, ?, ?, ?, ?)";
 
+        var urlCheck = checkUrl(url);
+
+        try (var conn = dataSource.getConnection();
+             var statement = conn.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(1, url.getId());
+            statement.setInt(2, urlCheck.getStatusCode());
+            statement.setString(3, urlCheck.getTitle());
+            statement.setString(4, urlCheck.getH1());
+            statement.setString(5, urlCheck.getDescription());
+            statement.setTimestamp(6, urlCheck.getCreatedAt());
+
+            statement.executeUpdate();
+        }
+    }
+
+    public static UrlCheck checkUrl(Url url) throws IOException {
+
         Jsoup.connect(url.getName()).get();
 
         HttpResponse<String> response = Unirest.get(url.getName()).asString();
@@ -27,31 +46,29 @@ public class UrlCheckRepository extends BaseRepository {
 
         String title = bodyOfResponse.title();
 
-        String h = Jsoup.connect(url.getName())
-                .get()
-                .select("h1")
-                .text();
+        String h = bodyOfResponse.select("h1").text();
 
-        String description = Optional.of(Jsoup.connect(url.getName())
-                        .get()
-                        .selectFirst("meta")
-                        .attr("description"))
-                        .orElse("No such elements");
+        String description;
+
+        if (bodyOfResponse.selectFirst("meta[name=description]") != null) {
+            description = bodyOfResponse.selectFirst("meta[name=description]")
+                    .attr("content");
+        } else {
+            description = "";
+        }
 
         Timestamp timeNow = new Timestamp(new Date().getTime());
 
-        try (var conn = dataSource.getConnection();
-             var statement = conn.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, url.getId());
-            statement.setInt(2, status);
-            statement.setString(3, title);
-            statement.setString(4, h);
-            statement.setString(5, description);
-            statement.setTimestamp(6, timeNow);
+        var urlCheck = new UrlCheck();
 
-            statement.executeUpdate();
+        urlCheck.setUrlId(url.getId());
+        urlCheck.setTitle(title);
+        urlCheck.setDescription(description);
+        urlCheck.setStatusCode(status);
+        urlCheck.setCreatedAt(timeNow);
+        urlCheck.setH1(h);
 
-        }
+        return urlCheck;
     }
 
     public static List<UrlCheck> getChecksForUrl(Url url) {

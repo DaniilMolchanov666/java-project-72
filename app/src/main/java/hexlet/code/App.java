@@ -18,9 +18,6 @@ import java.sql.SQLException;
 
 public class App {
 
-    // TODO сделать шаблоны ссылок на основные страницы
-    // TODO настроть с СSS расположение кнопок
-
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "8000");
         return Integer.parseInt(port);
@@ -56,6 +53,7 @@ public class App {
         app.get(HomeRoutes.showAllUrls(), UrlController::showUrls);
         app.get(HomeRoutes.currentUrl(), UrlChecksController::showPageWithChecks);
         app.post(HomeRoutes.checkUrl(), UrlChecksController::checkUrl);
+
         return app;
     }
 

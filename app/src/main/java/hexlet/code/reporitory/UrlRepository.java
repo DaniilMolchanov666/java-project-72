@@ -3,15 +3,14 @@ package hexlet.code.reporitory;
 import hexlet.code.model.Url;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrlRepository extends BaseRepository{
+public class UrlRepository extends BaseRepository {
 
-    //TODO настройка ссылок на home страницу и urls страницу
     public static ArrayList<Url> listOfUrls = new ArrayList<>();
+
     public static void save(Url url) throws SQLException {
         if (!listOfUrls.contains(url)) {
             String sql = "INSERT INTO urls(name, created_at) VALUES (?, ?)";
@@ -37,14 +36,14 @@ public class UrlRepository extends BaseRepository{
 
         String sql = "SELECT * FROM urls";
 
-        try(var conn = dataSource.getConnection()) {
+        try (var conn = dataSource.getConnection()) {
 
             var statement = conn.prepareStatement(sql);
             var resultSet = statement.executeQuery();
 
             ArrayList<Url> listSQL = new ArrayList<>();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at").toInstant();

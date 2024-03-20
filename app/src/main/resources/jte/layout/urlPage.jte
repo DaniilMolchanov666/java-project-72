@@ -11,6 +11,17 @@
               rel="stylesheet"
               integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
               crossorigin="anonymous">
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Анализатор страниц</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Главная</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/urls">Сайты</a>
+            </li>
+        </ul>
     </div>
     <h1>
         Сайт: ${urlChecks.url.getName()}
